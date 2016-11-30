@@ -1,0 +1,58 @@
+version: '2'
+
+services:
+  ldap:
+    image: mesosphere/openldap-1.1.6:rfc2307bis
+    environment:    
+      LDAP_LOG_LEVEL: "256"
+      LDAP_ORGANISATION: "Apache Software Foundation"
+      LDAP_DOMAIN: "apache.org"
+      LDAP_BASE_DN: ""
+      LDAP_ADMIN_PASSWORD: "admin"
+      LDAP_CONFIG_PASSWORD: "config"
+      LDAP_READONLY_USER: "false"
+      #LDAP_READONLY_USER_USERNAME: "readonly"
+      #LDAP_READONLY_USER_PASSWORD: "readonly"
+      LDAP_BACKEND: "hdb"
+      LDAP_TLS: "true"
+      LDAP_TLS_CRT_FILENAME: "servercrt.pem"
+      LDAP_TLS_KEY_FILENAME: "serverkey.pem"
+      LDAP_TLS_CA_CRT_FILENAME: "cacert.pem"
+      LDAP_TLS_ENFORCE: "true"           
+      LDAP_TLS_VERIFY_CLIENT: "never"
+      #LDAP_TLS_VERIFY_CLIENT: "allow"
+      LDAP_REPLICATION: "false"
+      LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
+      LDAP_SSL_HELPER_PREFIX: "ldap"
+      #LDAP_TLS_PROTOCOL_MIN: "3.1"
+      LDAP_TLS_PROTOCOL_MIN: "3.0"
+      #LDAP_TLS_CIPHER_SUITE: "SECURE256:-VERS-SSL3.0" 
+      LDAP_TLS_CIPHER_SUITE: "NORMAL"
+      TERM: "dumb"
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./certs:/container/service/slapd/assets/certs/
+    ports:
+      - "389:389"
+      - "639:639"
+      - "636:636"
+    hostname: "ldap"
+ 
+  sssd:
+    build:
+      context: ./build
+    image: moresandeep/sssd-dev
+    command: /init.sh
+    depends_on:
+      - ldap
+    environment:    
+      TLS_CACERTDIR: "/etc/openldap/certs"
+      LDAPTLS_CACERT: "/etc/openldap/certs/cacert.pem"
+      TLS_REQCERT: "never"
+    volumes:
+      - ./conf:/knox/conf/
+      - ./certs:/etc/openldap/certs
+    ports:
+      - "8443:8443"
+    

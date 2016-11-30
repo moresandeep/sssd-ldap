@@ -1,0 +1,5 @@
+<rules>
+  <rule dir="IN" name="WEATHER/weather/inbound" pattern="*://*:*/**/weather/{path=**}?{**}">
+    <rewrite template="{$serviceUrl[WEATHER]}/{path=**}?{**}"/>
+  </rule>
+</rules>

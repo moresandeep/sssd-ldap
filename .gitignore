@@ -1,0 +1,21 @@
+# Ignore
+.DS_Store
+*/.DS_Store
+certs/**/*
+certs-rfc2307/**/*
+logs/**/*
+
+#Allow
+!certs/cacert.pem
+!certs/dhparam.pem
+!certs/ldap.client.key.pem
+!certs/ldap.client.pem
+!certs/servercrt.pem
+!certs/serverkey.pem
+
+!certs-rfc2307/cacert.pem
+!certs-rfc2307/dhparam.pem
+!certs-rfc2307/ldap.client.key.pem
+!certs-rfc2307/ldap.client.pem
+!certs-rfc2307/servercrt.pem
+!certs-rfc2307/serverkey.pem

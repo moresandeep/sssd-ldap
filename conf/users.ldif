@@ -1,0 +1,296 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+version: 1
+
+# Please replace with site specific values
+dn: dc=hadoop,dc=apache,dc=org
+objectclass: organization
+objectclass: dcObject
+o: Hadoop
+dc: hadoop
+
+# Entry for a sample people container
+# Please replace with site specific values
+dn: ou=people,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass:organizationalUnit
+ou: people
+
+#################################################
+# Users
+#################################################
+
+# Entry for a sample end user
+# Please replace with site specific values
+dn: uid=guest,ou=people,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass:person
+objectclass:organizationalPerson
+objectclass:inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Guest
+sn: User
+uid: guest
+userPassword:guest-password
+givenName: guest
+displayName: guest
+gecos: guest
+loginShell: /bin/bash
+uidNumber: 2001
+gidNumber: 2000
+homeDirectory: /home/guest
+shadowExpire: -1
+shadowFlag: 0
+shadowWarning: 7
+shadowMin: 8
+shadowMax: 999999
+shadowLastChange: 10877
+mail: knox@apache.org
+
+
+# entry for sample user admin
+dn: uid=admin,ou=people,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass:person
+objectclass:organizationalPerson
+objectclass:inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Admin
+sn: Admin
+uid: admin
+userPassword:admin-password
+givenName: admin
+displayName: admin
+gecos: admin
+loginShell: /bin/bash
+uidNumber: 2002
+gidNumber: 2000
+homeDirectory: /home/admin
+shadowExpire: -1
+shadowFlag: 0
+shadowWarning: 7
+shadowMin: 8
+shadowMax: 999999
+shadowLastChange: 10877
+mail: knox@apache.org
+
+# entry for sample user sam
+dn: uid=sam,ou=people,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass:person
+objectclass:organizationalPerson
+objectclass:inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+shadowExpire: -1
+shadowFlag: 0
+shadowWarning: 7
+shadowMin: 8
+shadowMax: 999999
+shadowLastChange: 10877
+homeDirectory: /home/sam
+givenName: sam
+displayName: sam
+gecos: sam
+loginShell: /bin/bash
+cn: sam
+sn: sam
+uid: sam
+uidNumber: 2003
+gidNumber: 2000
+userPassword:sam-password
+
+# entry for sample user tom
+dn: uid=tom,ou=people,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass:person
+objectclass:organizationalPerson
+objectclass:inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+shadowExpire: -1
+shadowFlag: 0
+shadowWarning: 7
+shadowMin: 8
+shadowMax: 999999
+shadowLastChange: 10877
+homeDirectory: /home/tom
+givenName: tom
+displayName: tom
+gecos: tom
+loginShell: /bin/bash
+cn: tom
+sn: tom
+uid: tom
+uidNumber: 2004
+gidNumber: 2000
+userPassword:tom-password
+
+# entry for sample user jerry
+dn: uid=jerry,ou=people,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass:person
+objectclass:organizationalPerson
+objectclass:inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+shadowExpire: -1
+shadowFlag: 0
+shadowWarning: 7
+shadowMin: 8
+shadowMax: 999999
+shadowLastChange: 10877
+homeDirectory: /home/jerry
+givenName: jerry
+displayName: jerry
+gecos: jerry
+loginShell: /bin/bash
+cn: jerry
+sn: jerry
+uid: jerry
+#uidNumber: 5001
+#gidNumber: 5000
+uidNumber: 4001
+gidNumber: 4000
+userPassword:jerry-password
+
+######################################################
+# OU=groups, group=analyst, scientist 
+######################################################
+
+# create FIRST Level groups branch
+dn: ou=groups,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass:organizationalUnit
+ou: groups
+description: generic groups branch
+
+# create the analyst group under groups
+dn: cn=analyst,ou=groups,dc=hadoop,dc=apache,dc=org
+cn: analyst
+description:analyst  group
+objectClass: posixGroup
+objectclass: groupofnames
+gidNumber: 2000
+member: uid=sam,ou=people,dc=hadoop,dc=apache,dc=org
+member: uid=tom,ou=people,dc=hadoop,dc=apache,dc=org
+
+# create the scientist group under groups
+dn: cn=scientist,ou=groups,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass: posixGroup
+objectclass: groupofnames
+cn: scientist
+description: scientist group
+gidNumber: 3000
+member: uid=sam,ou=people,dc=hadoop,dc=apache,dc=org
+
+# create the engineer group under groups
+dn: cn=engineer,ou=groups,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass: posixGroup
+objectclass: groupofnames
+cn: engineer
+gidNumber: 4000
+description: engineer group
+member: uid=sam,ou=people,dc=hadoop,dc=apache,dc=org
+#member: uid=jerry,ou=people,dc=hadoop,dc=apache,dc=org
+
+######################################################
+# OU=data, group=datascientist 
+######################################################
+
+# create SECOND Level groups branch
+dn: ou=data, ou=groups,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass:organizationalUnit
+ou: data
+description: data handlers
+
+# create the datascientist group under groups
+dn: cn=datascientist,ou=data,ou=groups,dc=hadoop,dc=apache,dc=org
+cn: datascientist
+objectClass: posixGroup
+objectclass: groupofnames
+gidNumber: 5000
+#member: uid=jerry,ou=people,dc=hadoop,dc=apache,dc=org
+member: cn=datascientist-a,cn=datascientist,ou=data,ou=groups,dc=hadoop,dc=apache,dc=org
+
+# create the datascientist-a group under groups
+dn: cn=datascientist-a,cn=datascientist,ou=data,ou=groups,dc=hadoop,dc=apache,dc=org
+cn: cn=datascientist-a
+objectClass: posixGroup
+objectclass: groupofnames
+gidNumber: 6000
+#member: uid=jerry,ou=people,dc=hadoop,dc=apache,dc=org
+member: cn=datascientist-b, cn=datascientist-a,cn=datascientist,ou=data,ou=groups,dc=hadoop,dc=apache,dc=org
+
+# create the datascientist-b group under groups
+dn: cn=datascientist-b, cn=datascientist-a,cn=datascientist,ou=data,ou=groups,dc=hadoop,dc=apache,dc=org
+cn: cn=datascientist-b
+objectClass: posixGroup
+objectclass: groupofnames
+gidNumber: 7000
+member: uid=jerry,ou=people,dc=hadoop,dc=apache,dc=org
+
+######################################################
+# ou=processing,ou=data,ou=groups,dc=hadoop,dc=apache,dc=org
+######################################################
+
+# create Third Level groups branch
+dn: ou=processing,ou=data,ou=groups,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass:organizationalUnit
+ou: processing
+description: data processing 
+
+dn: cn=processors,ou=processing,ou=data,ou=groups,dc=hadoop,dc=apache,dc=org
+cn: cn=processors
+objectClass: posixGroup
+objectclass: groupofnames
+gidNumber: 8000
+member: uid=kim,ou=processing,ou=data,ou=groups,dc=hadoop,dc=apache,dc=org
+
+
+# entry for sample user kim
+dn: uid=kim,ou=processing,ou=data,ou=groups,dc=hadoop,dc=apache,dc=org
+objectclass:top
+objectclass:person
+objectclass:organizationalPerson
+objectclass:inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+shadowExpire: -1
+shadowFlag: 0
+shadowWarning: 7
+shadowMin: 8
+shadowMax: 999999
+shadowLastChange: 10877
+homeDirectory: /home/kim
+givenName: kim
+displayName: kim
+gecos: kim
+loginShell: /bin/kim
+cn: kim
+sn: kim
+uid: kim
+uidNumber: 8001
+gidNumber: 8000
+userPassword:kim-password
+

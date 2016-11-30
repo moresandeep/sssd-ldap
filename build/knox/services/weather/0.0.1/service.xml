@@ -1,0 +1,5 @@
+<service role="WEATHER" name="weather" version="0.0.1">
+  <routes>
+    <route path="/weather/**"/>
+  </routes>
+</service>
